@@ -4,6 +4,7 @@ import panel.ExercisePanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileNotFoundException;
 
 public class ExerciseLog {
 
@@ -38,7 +39,7 @@ public class ExerciseLog {
     public void initMenuPanel() {
         menuPanel = new JPanel();
         menuPanel.setPreferredSize(new Dimension(350, 70));
-        menuPanel.setBackground(Color.GREEN);
+        menuPanel.setBackground(Color.GRAY);
 
         menuPanel.add(createExerciseStartButton());
 
@@ -48,7 +49,12 @@ public class ExerciseLog {
     private JButton createExerciseStartButton() {
         JButton button = new JButton("운동시작");
         button.addActionListener(e -> {
-            JPanel exercisePanel = new ExercisePanel(contentPanel, frame);
+            JPanel exercisePanel = null;
+            try {
+                exercisePanel = new ExercisePanel(contentPanel, frame);
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
 
             createBackButton();
 
@@ -81,7 +87,7 @@ public class ExerciseLog {
     public void initContentPanel() {
         contentPanel = new JPanel();
         contentPanel.setPreferredSize(new Dimension(350, 430));
-        contentPanel.setBackground(Color.blue);
+//        contentPanel.setBackground(Color.blue);
 
         frame.add(contentPanel, BorderLayout.NORTH);
     }
