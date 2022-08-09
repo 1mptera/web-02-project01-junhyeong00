@@ -72,13 +72,11 @@ public class ExercisePanel extends JPanel {
     private void initExerciseCompletePanel() {
         exerciseCompletePanel = new JPanel();
 
-
         exerciseCompletePanel.add(new JLabel("축하합니다!"));
         exerciseCompletePanel.add(new JLabel("오늘의 운동을 완료하셨습니다"));
 
         add(exerciseCompletePanel);
     }
-
 
     private void initNextButtonPanel() {
         nextButtonPanel = new JPanel();
@@ -95,6 +93,7 @@ public class ExercisePanel extends JPanel {
 
                 initNextButtonPanel();
             }
+
             if (count == 9) {
                 initExerciseCompletePanel();
             }
