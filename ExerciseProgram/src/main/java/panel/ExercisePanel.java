@@ -23,6 +23,7 @@ public class ExercisePanel extends JPanel {
 
     private int count = 0;
     private DifficultyControl difficultyControl;
+    private int typeCount = 0;
 
     public ExercisePanel(JPanel contentPanel, JFrame frame) throws FileNotFoundException {
         difficultyControl = new DifficultyControl();
@@ -44,7 +45,7 @@ public class ExercisePanel extends JPanel {
 
     private void initSubheadingPanel() {
         subheadingPanel = new JPanel();
-        subheadingPanel.setPreferredSize(new Dimension(350, 70));
+        subheadingPanel.setPreferredSize(new Dimension(350, 60));
 
         subheadingPanel.add(new JLabel("오늘의 운동 목표"));
 
@@ -53,20 +54,33 @@ public class ExercisePanel extends JPanel {
 
     private void initExerciseListPanel() {
         exerciseListPanel = new JPanel();
-        exerciseListPanel.setPreferredSize(new Dimension(350, 320));
-        exerciseListPanel.setLayout(new GridLayout(9, 1));
+        exerciseListPanel.setPreferredSize(new Dimension(350, 330));
+        exerciseListPanel.setLayout(new GridLayout(3, 1));
 
 
+        for (int i = 0; i < 3; i += 1) {
+            JPanel panel = new JPanel();
+            panel.setLayout(new GridLayout(4, 1));
 
-        exerciseListPanel.add(new JLabel(" - 푸쉬업 워밍업1: " + difficultyControl.warmUp1(exercise.pushUpAverage()) + "개"));
-        exerciseListPanel.add(new JLabel(" - 푸쉬업 워밍업2: " + difficultyControl.warmUp2(exercise.pushUpAverage()) + "개"));
-        exerciseListPanel.add(new JLabel(" - 푸쉬업 3세트: 각각 " + difficultyControl.set(exercise.pushUpAverage()) + "개"));
-        exerciseListPanel.add(new JLabel(" - 풀업 워밍업1: " + difficultyControl.warmUp1(exercise.pullUpAverage()) + "개"));
-        exerciseListPanel.add(new JLabel(" - 풀업 워밍업2: " + difficultyControl.warmUp2(exercise.pullUpAverage()) + "개"));
-        exerciseListPanel.add(new JLabel(" - 풀업 3세트: 각각 " + difficultyControl.set(exercise.pullUpAverage()) + "개"));
-        exerciseListPanel.add(new JLabel(" - 스쿼트 워밍업1: " + difficultyControl.warmUp1(exercise.squatAverage()) + "개"));
-        exerciseListPanel.add(new JLabel(" - 스쿼트 워밍업2: " + difficultyControl.warmUp2(exercise.squatAverage()) + "개"));
-        exerciseListPanel.add(new JLabel(" - 스쿼트 3세트: 각각 " + difficultyControl.set(exercise.squatAverage()) + "개"));
+            String type = "푸쉬업";
+            int average = exercise.pushUpAverage();
+
+            if (i == 1) {
+                type = "풀업";
+                average = exercise.pullUpAverage();
+            }
+
+            if (i == 2) {
+                type = "스쿼트";
+                average = exercise.squatAverage();
+            }
+
+            panel.add(new JLabel(" - " + type + " 워밍업1: " + difficultyControl.warmUp1(average) + "개"));
+            panel.add(new JLabel(" - " + type + " 워밍업2: " + difficultyControl.warmUp2(average) + "개"));
+            panel.add(new JLabel(" - " + type + " 3세트: 각각 " + difficultyControl.set(average) + "개"));
+
+            exerciseListPanel.add(panel);
+        }
 
         add(exerciseListPanel);
     }
@@ -76,18 +90,37 @@ public class ExercisePanel extends JPanel {
         exercisePanel.setPreferredSize(new Dimension(350, 390));
         exercisePanel.setLayout(new GridLayout(6, 1));
 
-        if (count % 4 == 1 ) {
-            exercisePanel.add(new JLabel(" - 푸쉬업 워밍업1: " + difficultyControl.warmUp1(exercise.pushUpAverage()) + "개"));
-            exercisePanel.add(new JLabel(" - 푸쉬업 워밍업2: " + difficultyControl.warmUp2(exercise.pushUpAverage()) + "개"));
+        String type = "푸쉬업";
+        int average = exercise.pushUpAverage();
+
+        if (typeCount == 1) {
+            type = "풀업";
+            average = exercise.pullUpAverage();
         }
 
-        if (count % 4 != 1){
-            exercisePanel.add(new JLabel(" - 푸쉬업 " + (count % 4 -1) + "세트: " + difficultyControl.set(exercise.pushUpAverage()) + "개"));
-
-            JTextField textField = new JTextField(10);
-            textField.setSize(350,20);
-            exercisePanel.add(textField);
+        if (typeCount == 2) {
+            type = "스쿼트";
+            average = exercise.squatAverage();
         }
+
+        if (count % 2 == 1) {
+            exercisePanel.add(new JLabel(" - " + type + " 워밍업1: " + difficultyControl.warmUp1(average) + "개"));
+            exercisePanel.add(new JLabel(" - " + type + " 워밍업2: " + difficultyControl.warmUp2(average) + "개"));
+        }
+
+        if (count % 2 == 0) {
+            for (int i = 1; i <= 3; i += 1) {
+                JPanel panel = new JPanel();
+
+                panel.add(new JLabel(" - " + type + " " + i + "세트: " + difficultyControl.set(exercise.pushUpAverage()) + "개    실제 개수:"));
+                panel.add(new JTextField(10));
+
+                exercisePanel.add(panel);
+            }
+
+            typeCount += 1;
+        }
+
         add(exercisePanel, BorderLayout.NORTH);
     }
 
@@ -110,13 +143,13 @@ public class ExercisePanel extends JPanel {
 
             this.removeAll();
 
-            if (count <= 12) {
+            if (count <= 6) {
                 initExercisePanel();
 
                 initNextButtonPanel();
             }
 
-            if (count > 12) {
+            if (count > 6) {
                 initExerciseCompletePanel();
 
                 ExerciseRecordWriter.saveExerciseRecord();
