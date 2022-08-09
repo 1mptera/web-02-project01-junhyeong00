@@ -1,3 +1,5 @@
+package application;
+
 import panel.ExercisePanel;
 
 import javax.swing.*;
@@ -9,7 +11,6 @@ public class ExerciseLog {
     private JPanel contentPanel;
     private JPanel menuPanel;
     private JButton backButton;
-    private JPanel nextButtonPanel;
 
     public static void main(String[] args) {
         ExerciseLog application = new ExerciseLog();
@@ -36,7 +37,7 @@ public class ExerciseLog {
 
     public void initMenuPanel() {
         menuPanel = new JPanel();
-        menuPanel.setPreferredSize(new Dimension(350, 40));
+        menuPanel.setPreferredSize(new Dimension(350, 70));
         menuPanel.setBackground(Color.GREEN);
 
         menuPanel.add(createExerciseStartButton());
@@ -47,13 +48,12 @@ public class ExerciseLog {
     private JButton createExerciseStartButton() {
         JButton button = new JButton("운동시작");
         button.addActionListener(e -> {
-            JPanel exercisePanel = new ExercisePanel();
+            JPanel exercisePanel = new ExercisePanel(contentPanel, frame);
 
             createBackButton();
 
             updateContentPanel(exercisePanel);
 
-            initNextButtonPanel();
             updateMenuPanel(backButton);
 
         });
@@ -80,7 +80,7 @@ public class ExerciseLog {
 
     public void initContentPanel() {
         contentPanel = new JPanel();
-        contentPanel.setPreferredSize(new Dimension(350, 420));
+        contentPanel.setPreferredSize(new Dimension(350, 430));
         contentPanel.setBackground(Color.blue);
 
         frame.add(contentPanel, BorderLayout.NORTH);
@@ -90,6 +90,10 @@ public class ExerciseLog {
         contentPanel.removeAll();
         contentPanel.add(panel);
 
+        showContentPanel();
+    }
+
+    public void showContentPanel() {
         contentPanel.setVisible(false);
         contentPanel.setVisible(true);
 
@@ -104,33 +108,5 @@ public class ExerciseLog {
         menuPanel.setVisible(true);
 
         frame.setVisible(true);
-    }
-
-    private void initNextButtonPanel() {
-        nextButtonPanel = new JPanel();
-        nextButtonPanel.setPreferredSize(new Dimension(350, 40));
-
-        JButton button = new JButton("다음");
-        button.addActionListener(e -> {
-//            count += 1;
-//
-//            subheadingPanel.removeAll();
-//            exerciseListPanel.removeAll();
-
-            contentPanel.removeAll();
-            menuPanel.removeAll();
-
-            menuPanel.add(createExerciseStartButton());
-
-            contentPanel.setVisible(false);
-            contentPanel.setVisible(true);
-
-            menuPanel.setVisible(false);
-            menuPanel.setVisible(true);
-
-            frame.setVisible(true);
-        });
-        nextButtonPanel.add(button);
-        contentPanel.add(nextButtonPanel, BorderLayout.SOUTH);
     }
 }
