@@ -1,12 +1,15 @@
 package panel;
 
+import models.Exercise;
 import utils.ExerciseRecordLoader;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileNotFoundException;
 
 public class ExercisePanel extends JPanel {
     private final ExerciseRecordLoader exerciseRecordLoader;
+    private Exercise exercise;
 
     private JPanel subheadingPanel;
     private JPanel exerciseListPanel;
@@ -18,8 +21,10 @@ public class ExercisePanel extends JPanel {
 
     private int count = 0;
 
-    public ExercisePanel(JPanel contentPanel, JFrame frame) {
+    public ExercisePanel(JPanel contentPanel, JFrame frame) throws FileNotFoundException {
         exerciseRecordLoader = new ExerciseRecordLoader();
+
+        exercise = exerciseRecordLoader.loadExerciseRecord();
 
         this.contentPanel = contentPanel;
         this.frame = frame;
@@ -47,15 +52,15 @@ public class ExercisePanel extends JPanel {
         exerciseListPanel.setPreferredSize(new Dimension(350, 320));
         exerciseListPanel.setLayout(new GridLayout(9, 1));
 
-        exerciseListPanel.add(new JLabel(" - 푸쉬업 워밍업1: 12개"));
-        exerciseListPanel.add(new JLabel(" - 푸쉬업 워밍업2: 18개"));
-        exerciseListPanel.add(new JLabel(" - 푸쉬업 3세트: 각각 30개"));
-        exerciseListPanel.add(new JLabel(" - 풀업 워밍업1: 4개"));
-        exerciseListPanel.add(new JLabel(" - 풀업 워밍업2: 6개"));
-        exerciseListPanel.add(new JLabel(" - 풀업 3세트: 각각 10개"));
-        exerciseListPanel.add(new JLabel(" - 스쿼트 워밍업1: 16개"));
-        exerciseListPanel.add(new JLabel(" - 스쿼트 워밍업2: 24개"));
-        exerciseListPanel.add(new JLabel(" - 스쿼트 3세트: 각각 40개"));
+        exerciseListPanel.add(new JLabel(" - 푸쉬업 워밍업1: " + exercise.pushUpAverage() * 0.4 + "개"));
+        exerciseListPanel.add(new JLabel(" - 푸쉬업 워밍업2: " + exercise.pushUpAverage() * 0.6 + "개"));
+        exerciseListPanel.add(new JLabel(" - 푸쉬업 3세트: 각각 " + exercise.pushUpAverage() * 1.1 + "개"));
+        exerciseListPanel.add(new JLabel(" - 풀업 워밍업1: " + exercise.pullUpAverage() * 0.4 + "개"));
+        exerciseListPanel.add(new JLabel(" - 풀업 워밍업2: " + exercise.pullUpAverage() * 0.6 + "개"));
+        exerciseListPanel.add(new JLabel(" - 풀업 3세트: 각각 " + exercise.pullUpAverage() * 1.1 + "개"));
+        exerciseListPanel.add(new JLabel(" - 스쿼트 워밍업1: " + exercise.squatAverage() * 0.4 + "개"));
+        exerciseListPanel.add(new JLabel(" - 스쿼트 워밍업2: " + exercise.squatAverage() * 0.6 + "개"));
+        exerciseListPanel.add(new JLabel(" - 스쿼트 3세트: 각각 " + exercise.squatAverage() * 1.1 + "개"));
 
         add(exerciseListPanel);
     }
