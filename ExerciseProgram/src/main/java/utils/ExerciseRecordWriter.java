@@ -1,7 +1,16 @@
 package utils;
 
-public class ExerciseRecordWriter {
-    public static void saveExerciseRecord() {
+import java.io.FileWriter;
+import java.io.IOException;
 
+public class ExerciseRecordWriter {
+    public ExerciseRecordWriter(InputRecordAverage inputRecordAverage) throws IOException {
+        FileWriter fileWriter = new FileWriter("exerciseRecord.csv");
+
+        String record = inputRecordAverage.toCsvRow();
+
+        fileWriter.write(record);
+
+        fileWriter.close();
     }
 }
