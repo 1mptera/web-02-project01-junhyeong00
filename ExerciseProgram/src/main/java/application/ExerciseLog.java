@@ -68,21 +68,27 @@ public class ExerciseLog {
         return button;
     }
 
-    private JButton createTestButton() {
-        JButton button = new JButton("레벨 테스트");
-        button.addActionListener(e -> {
+//    private JButton createTestButton() {
+//        JButton button = new JButton("레벨 테스트");
+//        button.addActionListener(e -> {
+//            LevelTestPanel levelTestPanel = new LevelTestPanel();
+//
+//            createBackButton();
+//
+//            updateContentPanel(levelTestPanel);
+//
+//            updateMenuPanel(backButton);
+//        });
+//        return button;
+//    }
 
-        });
-        return button;
-    }
-
-    private JButton createExerciseLogButton() {
-        JButton button = new JButton("운동 일지");
-        button.addActionListener(e -> {
-
-        });
-        return button;
-    }
+//    private JButton createExerciseLogButton() {
+//        JButton button = new JButton("운동 일지");
+//        button.addActionListener(e -> {
+//
+//        });
+//        return button;
+//    }
 
     private void createBackButton() {
         backButton = new JButton("돌아가기");
