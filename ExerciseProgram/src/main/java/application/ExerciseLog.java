@@ -29,7 +29,7 @@ public class ExerciseLog {
     }
 
     public void initFrame() {
-        frame = new JFrame("운동");
+        frame = new JFrame("운동 일지");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setSize(350, 500);
@@ -41,7 +41,9 @@ public class ExerciseLog {
         menuPanel.setPreferredSize(new Dimension(350, 70));
         menuPanel.setBackground(Color.GRAY);
 
+//        menuPanel.add(createTestButton());
         menuPanel.add(createExerciseStartButton());
+//        menuPanel.add(createExerciseLogButton());
 
         frame.add(menuPanel);
     }
@@ -66,13 +68,31 @@ public class ExerciseLog {
         return button;
     }
 
+    private JButton createTestButton() {
+        JButton button = new JButton("레벨 테스트");
+        button.addActionListener(e -> {
+
+        });
+        return button;
+    }
+
+    private JButton createExerciseLogButton() {
+        JButton button = new JButton("운동 일지");
+        button.addActionListener(e -> {
+
+        });
+        return button;
+    }
+
     private void createBackButton() {
         backButton = new JButton("돌아가기");
         backButton.addActionListener(e1 -> {
             contentPanel.removeAll();
             menuPanel.removeAll();
 
+//            menuPanel.add(createTestButton());
             menuPanel.add(createExerciseStartButton());
+//            menuPanel.add(createExerciseLogButton());
 
             contentPanel.setVisible(false);
             contentPanel.setVisible(true);
@@ -87,7 +107,6 @@ public class ExerciseLog {
     public void initContentPanel() {
         contentPanel = new JPanel();
         contentPanel.setPreferredSize(new Dimension(350, 430));
-//        contentPanel.setBackground(Color.blue);
 
         frame.add(contentPanel, BorderLayout.NORTH);
     }
