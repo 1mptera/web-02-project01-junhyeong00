@@ -5,7 +5,7 @@ import utils.InputRecordAverage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class InputRecordAverageTest {w
+class InputRecordAverageTest {
     @Test
     void AverageProcess() {
         InputRecordAverage inputRecordAverage = new InputRecordAverage();

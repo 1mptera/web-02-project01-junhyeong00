@@ -99,7 +99,7 @@ public class ExercisePanel extends JPanel {
     private void initExercisePanel() {
         exercisePanel = new JPanel();
         exercisePanel.setPreferredSize(new Dimension(350, 390));
-        exercisePanel.setLayout(new GridLayout(4, 1));
+        exercisePanel.setLayout(new GridLayout(5, 1));
 
         type = "푸쉬업";
         average = exercise.pushUpAverage();
@@ -115,6 +115,8 @@ public class ExercisePanel extends JPanel {
         }
 
         if (count % 2 == 1) {
+            exercisePanel.add(new JLabel(" # 본 운동 전 가벼운 강도의 운동으로 몸을 풀어줍니다", SwingConstants.CENTER));
+            exercisePanel.add(new JLabel(" # 세트간 쉬는 시간은 1분입니다", SwingConstants.CENTER));
             exercisePanel.add(new JLabel(" - " + type + " 워밍업1: " + difficultyControl.warmUp1(average) + "개"));
             exercisePanel.add(new JLabel(" - " + type + " 워밍업2: " + difficultyControl.warmUp2(average) + "개"));
         }
@@ -147,6 +149,10 @@ public class ExercisePanel extends JPanel {
             numberOfSuccessesPanel.add(numberOfSuccesses3);
 
             panel.add(numberOfSuccessesPanel);
+
+            exercisePanel.add(new JLabel(" # 목표 개수만큼 운동을 한 후, 성공 개수를 적습니다. ", SwingConstants.CENTER));
+            exercisePanel.add(new JLabel(" 단, 마지막 세트는 실패지점까지 반복합니다", SwingConstants.CENTER));
+            exercisePanel.add(new JLabel(" # 세트간 쉬는 시간은 1분입니다", SwingConstants.CENTER));
 
             exercisePanel.add(panel);
 

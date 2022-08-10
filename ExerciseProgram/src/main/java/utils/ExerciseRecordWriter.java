@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class ExerciseRecordWriter {
     public ExerciseRecordWriter(InputRecordAverage inputRecordAverage) throws IOException {
-        FileWriter fileWriter = new FileWriter("exerciseRecord.csv");
+        FileWriter fileWriter = new FileWriter("data/exerciseRecord.csv");
 
         String record = inputRecordAverage.toCsvRow();
 

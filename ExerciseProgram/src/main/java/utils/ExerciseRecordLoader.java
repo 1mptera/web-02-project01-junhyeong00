@@ -13,7 +13,7 @@ public class ExerciseRecordLoader {
     private int squatAverage;
 
     public Exercise loadExerciseRecord() throws FileNotFoundException {
-        File file = new File("exerciseRecord.csv");
+        File file = new File("data/exerciseRecord.csv");
 
         Scanner scanner = new Scanner(file);
 
