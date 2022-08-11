@@ -11,8 +11,9 @@ public class LevelTestPanel extends JPanel {
     private JPanel testButtonPanel;
     private final JPanel contentPanel;
     private final JFrame frame;
-    private JPanel testCompletePanel;
-    private String type;
+    private JPanel testResultPanel;
+    private JPanel numberOfSuccessesPanel;
+    private JPanel testDescriptionPanel;
     private JTextField numberOfSuccesses1;
     private JTextField numberOfSuccesses2;
     private JTextField numberOfSuccesses3;
@@ -22,8 +23,10 @@ public class LevelTestPanel extends JPanel {
     private String firstSetNumber;
     private String secondSetNumber;
     private String thirdSetNumber;
+    private String type;
 
     private InputRecordAverage inputRecordAverage;
+    private ExerciseRecordWriter exerciseRecordWriter;
 
     public LevelTestPanel(JPanel contentPanel, JFrame frame) {
         inputRecordAverage = new InputRecordAverage();
@@ -39,18 +42,22 @@ public class LevelTestPanel extends JPanel {
     }
 
     private JPanel testDescriptionPanel() {
-        JPanel testDescriptionPanel = new JPanel();
+        testDescriptionPanel = new JPanel();
         testDescriptionPanel.setLayout(new GridLayout(7, 1));
         testDescriptionPanel.setPreferredSize(new Dimension(350, 390));
 
+        testDescriptionLabel();
+
+        return testDescriptionPanel;
+    }
+
+    private void testDescriptionLabel() {
         testDescriptionPanel.add(new JLabel("TEST 진행 방법", SwingConstants.CENTER));
         testDescriptionPanel.add(new JLabel(" 운동을 순서대로 진행합니다"));
         testDescriptionPanel.add(new JLabel(" 모든 운동은 매 세트당 실패지점까지 반복합니다"));
         testDescriptionPanel.add(new JLabel(" *실패지점: 정확한 자세를 더 이상 유지하지 못하는 지점"));
         testDescriptionPanel.add(new JLabel(" 세트당 쉬는 시간은 1분입니다"));
         testDescriptionPanel.add(new JLabel(" 매 세트 반복횟수를 기록하고 테스트완료 버튼을 눌러줍니다"));
-
-        return testDescriptionPanel;
     }
 
     private JPanel testPanel() {
@@ -78,23 +85,17 @@ public class LevelTestPanel extends JPanel {
         exerciseGoalPanel.setLayout(new GridLayout(3, 1));
 
         for (int i = 1; i <= 3; i += 1) {
-            exerciseGoalPanel.add(new JLabel(" - " + type + " " + i + "세트:          성공횟수: ", SwingConstants.CENTER));
+            exerciseGoalPanel.add(new JLabel(" - " + type + " " + i
+                    + "세트:          성공횟수: ", SwingConstants.CENTER));
 
             panel.add(exerciseGoalPanel);
         }
 
-        JPanel numberOfSuccessesPanel = new JPanel();
+        numberOfSuccessesPanel = new JPanel();
         numberOfSuccessesPanel.setPreferredSize(new Dimension(140, 75));
         numberOfSuccessesPanel.setLayout(new GridLayout(3, 1));
 
-        numberOfSuccesses1 = new JTextField(10);
-        numberOfSuccessesPanel.add(numberOfSuccesses1);
-
-        numberOfSuccesses2 = new JTextField(10);
-        numberOfSuccessesPanel.add(numberOfSuccesses2);
-
-        numberOfSuccesses3 = new JTextField(10);
-        numberOfSuccessesPanel.add(numberOfSuccesses3);
+        NumberOfSuccessesTextField();
 
         panel.add(numberOfSuccessesPanel);
 
@@ -109,6 +110,17 @@ public class LevelTestPanel extends JPanel {
         }
 
         return testPanel;
+    }
+
+    private void NumberOfSuccessesTextField() {
+        numberOfSuccesses1 = new JTextField(10);
+        numberOfSuccessesPanel.add(numberOfSuccesses1);
+
+        numberOfSuccesses2 = new JTextField(10);
+        numberOfSuccessesPanel.add(numberOfSuccesses2);
+
+        numberOfSuccesses3 = new JTextField(10);
+        numberOfSuccessesPanel.add(numberOfSuccesses3);
     }
 
     private void initTestButtonPanel() {
@@ -132,39 +144,46 @@ public class LevelTestPanel extends JPanel {
             if (typeCount == 3) {
                 testButtonName = "테스트 완료";
 
-                initExerciseCompletePanel();
+                initExerciseResultPanel();
 
                 try {
-                    ExerciseRecordWriter exerciseRecordWriter = new ExerciseRecordWriter(inputRecordAverage);
+                    exerciseRecordWriter = new ExerciseRecordWriter(inputRecordAverage);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
             }
 
-            if (typeCount < 3) {
-                add(testPanel());
-            }
+                if (typeCount < 3) {
+                    add(testPanel());
+                }
 
-            contentPanel.setVisible(false);
-            contentPanel.setVisible(true);
+                contentPanel.setVisible(false);
+                contentPanel.setVisible(true);
 
-            frame.setVisible(true);
-        });
+                frame.setVisible(true);
+            });
 
-        testButtonPanel.add(button);
-        add(testButtonPanel, BorderLayout.SOUTH);
-    }
+            testButtonPanel.add(button);
+            add(testButtonPanel, BorderLayout.SOUTH);
+        }
 
-    private void initExerciseCompletePanel() {
-        testCompletePanel = new JPanel();
-        testCompletePanel.setLayout(new GridLayout(7, 1));
-        testCompletePanel.setPreferredSize(new Dimension(350, 390));
+        private void initExerciseResultPanel() {
+            testResultPanel = new JPanel();
+            testResultPanel.setLayout(new GridLayout(7, 1));
+            testResultPanel.setPreferredSize(new Dimension(350, 390));
 
-        testCompletePanel.add(new JLabel("테스트 평균기록", SwingConstants.CENTER));
-        testCompletePanel.add(new JLabel(" 푸쉬업: " + inputRecordAverage.pushUpAverage() + "개", SwingConstants.CENTER));
-        testCompletePanel.add(new JLabel(" 풀업: " + inputRecordAverage.pullUpAverage() + "개", SwingConstants.CENTER));
-        testCompletePanel.add(new JLabel(" 스쿼트: " + inputRecordAverage.squatAverage() + "개", SwingConstants.CENTER));
+            testResultLabel();
 
-        add(testCompletePanel);
+            add(testResultPanel);
+        }
+
+    private void testResultLabel() {
+        testResultPanel.add(new JLabel("테스트 평균기록", SwingConstants.CENTER));
+        testResultPanel.add(new JLabel(" 푸쉬업: " + inputRecordAverage.pushUpAverage()
+                + "개", SwingConstants.CENTER));
+        testResultPanel.add(new JLabel(" 풀업: " + inputRecordAverage.pullUpAverage()
+                + "개", SwingConstants.CENTER));
+        testResultPanel.add(new JLabel(" 스쿼트: " + inputRecordAverage.squatAverage()
+                + "개", SwingConstants.CENTER));
     }
 }

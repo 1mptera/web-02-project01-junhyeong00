@@ -9,16 +9,10 @@ public class InputRecordAverage {
     public void averageProcess(String firstSetNumber, String secondSetNumber, String thirdSetNumber, String type) {
         int sum = Integer.parseInt(firstSetNumber) + Integer.parseInt(secondSetNumber) + Integer.parseInt(thirdSetNumber);
 
-        if (type.equals("푸쉬업")) {
-            pushUpAverage = sum / 3;
-        }
-
-        if (type.equals("풀업")) {
-            pullUpAverage = sum / 3;
-        }
-
-        if (type.equals("스쿼트")) {
-            squatAverage = sum / 3;
+        switch (type) {
+            case "푸쉬업" -> pushUpAverage = sum / 3;
+            case "풀업" -> pullUpAverage = sum / 3;
+            case "스쿼트" -> squatAverage = sum / 3;
         }
     }
 
