@@ -1,9 +1,5 @@
 package utils;
 
-import models.ExerciseRecord;
-
-import java.util.List;
-
 public class InputRecordAverage {
     private int pushUpAverage;
     private int pullUpAverage;

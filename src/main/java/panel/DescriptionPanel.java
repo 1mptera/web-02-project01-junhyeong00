@@ -1,7 +1,5 @@
 package panel;
 
-import models.Exercise;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -15,7 +13,7 @@ public class DescriptionPanel extends JPanel {
         add(programDescriptionPanel());
 
         add(exerciseDescriptionPanel());
-        
+
         add(orderOfProgressPanel());
     }
 
@@ -30,7 +28,7 @@ public class DescriptionPanel extends JPanel {
         programDescriptionPanel.add(new JLabel("'테스트'로 첫 운동을 시작하고, 난이도가 조절되면 본격적인"));
         programDescriptionPanel.add(new JLabel("운동을 시작합니다."));
 
-        return  programDescriptionPanel;
+        return programDescriptionPanel;
     }
 
     private JPanel exerciseDescriptionPanel() {
