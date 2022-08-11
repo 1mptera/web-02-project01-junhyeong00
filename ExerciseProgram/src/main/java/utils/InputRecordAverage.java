@@ -6,8 +6,8 @@ public class InputRecordAverage {
     private int pullUpAverage;
     private int squatAverage;
 
-    public void averageProcess(String number1, String number2, String number3, String type) {
-        int sum = Integer.parseInt(number1) + Integer.parseInt(number2) + Integer.parseInt(number3);
+    public void averageProcess(String firstSetNumber, String secondSetNumber, String thirdSetNumber, String type) {
+        int sum = Integer.parseInt(firstSetNumber) + Integer.parseInt(secondSetNumber) + Integer.parseInt(thirdSetNumber);
 
         if (type.equals("푸쉬업")) {
             pushUpAverage = sum / 3;

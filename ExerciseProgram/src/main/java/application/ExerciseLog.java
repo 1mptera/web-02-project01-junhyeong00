@@ -1,6 +1,7 @@
 package application;
 
 import panel.ExercisePanel;
+import panel.LevelTestPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,7 +42,7 @@ public class ExerciseLog {
         menuPanel.setPreferredSize(new Dimension(350, 70));
         menuPanel.setBackground(Color.GRAY);
 
-//        menuPanel.add(createTestButton());
+        menuPanel.add(createTestButton());
         menuPanel.add(createExerciseStartButton());
 //        menuPanel.add(createExerciseLogButton());
 
@@ -68,27 +69,27 @@ public class ExerciseLog {
         return button;
     }
 
-//    private JButton createTestButton() {
-//        JButton button = new JButton("레벨 테스트");
-//        button.addActionListener(e -> {
-//            LevelTestPanel levelTestPanel = new LevelTestPanel();
-//
-//            createBackButton();
-//
-//            updateContentPanel(levelTestPanel);
-//
-//            updateMenuPanel(backButton);
-//        });
-//        return button;
-//    }
+    private JButton createTestButton() {
+        JButton button = new JButton("레벨 테스트");
+        button.addActionListener(e -> {
+            LevelTestPanel levelTestPanel = new LevelTestPanel(contentPanel, frame);
 
-//    private JButton createExerciseLogButton() {
-//        JButton button = new JButton("운동 일지");
-//        button.addActionListener(e -> {
-//
-//        });
-//        return button;
-//    }
+            createBackButton();
+
+            updateContentPanel(levelTestPanel);
+
+            updateMenuPanel(backButton);
+        });
+        return button;
+    }
+
+    private JButton createExerciseLogButton() {
+        JButton button = new JButton("운동 일지");
+        button.addActionListener(e -> {
+
+        });
+        return button;
+    }
 
     private void createBackButton() {
         backButton = new JButton("돌아가기");
@@ -96,7 +97,7 @@ public class ExerciseLog {
             contentPanel.removeAll();
             menuPanel.removeAll();
 
-//            menuPanel.add(createTestButton());
+            menuPanel.add(createTestButton());
             menuPanel.add(createExerciseStartButton());
 //            menuPanel.add(createExerciseLogButton());
 
