@@ -31,9 +31,9 @@ public class ExercisePanel extends JPanel {
     private int count = 0;
     private int typeCount = 0;
     private String type;
-    private String number1;
-    private String number2;
-    private String number3;
+    private String firstSetNumber;
+    private String secondSetNumber;
+    private String thirdSetNumber;
     private int average;
 
     public ExercisePanel(JPanel contentPanel, JFrame frame) throws FileNotFoundException {
@@ -115,19 +115,25 @@ public class ExercisePanel extends JPanel {
         }
 
         if (count % 2 == 1) {
-            exercisePanel.add(new JLabel(" # 본 운동 전 가벼운 강도의 운동으로 몸을 풀어줍니다", SwingConstants.CENTER));
-            exercisePanel.add(new JLabel(" # 세트간 쉬는 시간은 1분입니다", SwingConstants.CENTER));
-            exercisePanel.add(new JLabel(" - " + type + " 워밍업1: " + difficultyControl.warmUp1(average) + "개"));
-            exercisePanel.add(new JLabel(" - " + type + " 워밍업2: " + difficultyControl.warmUp2(average) + "개"));
+            exercisePanel.add(new JLabel(type + " 워밍업 세작", SwingConstants.CENTER));
+            exercisePanel.add(new JLabel(" - " + type + " 워밍업 1세트: " + difficultyControl.warmUp1(average) + "개"));
+            exercisePanel.add(new JLabel(" - " + type + " 워밍업 2세트: " + difficultyControl.warmUp2(average) + "개"));
+            exercisePanel.add(new JLabel(" # 본 운동 전 가벼운 강도의 운동으로 몸을 풀어줍니다"));
+            exercisePanel.add(new JLabel(" # 세트간 쉬는 시간은 1분입니다"));
+
+            add(exercisePanel, BorderLayout.NORTH);
         }
 
         if (count % 2 == 0) {
+            exercisePanel.add(new JLabel(type + " 본 세트", SwingConstants.CENTER));
+
             JPanel panel = new JPanel();
             panel.setLayout(new FlowLayout());
 
             JPanel exerciseGoalPanel = new JPanel();
             exerciseGoalPanel.setPreferredSize(new Dimension(200, 75));
             exerciseGoalPanel.setLayout(new GridLayout(3, 1));
+
 
             for (int i = 1; i <= 3; i += 1) {
                 exerciseGoalPanel.add(new JLabel(" - " + type + " " + i + "세트: " + difficultyControl.set(average) + "개    성공 횟수 :"));
@@ -150,16 +156,16 @@ public class ExercisePanel extends JPanel {
 
             panel.add(numberOfSuccessesPanel);
 
-            exercisePanel.add(new JLabel(" # 목표 개수만큼 운동을 한 후, 성공 개수를 적습니다. ", SwingConstants.CENTER));
-            exercisePanel.add(new JLabel(" 단, 마지막 세트는 실패지점까지 반복합니다", SwingConstants.CENTER));
-            exercisePanel.add(new JLabel(" # 세트간 쉬는 시간은 1분입니다", SwingConstants.CENTER));
-
             exercisePanel.add(panel);
 
             typeCount += 1;
-        }
 
-        add(exercisePanel, BorderLayout.NORTH);
+            add(exercisePanel, BorderLayout.NORTH);
+
+            exercisePanel.add(new JLabel(" # 목표 개수만큼 운동을 한 후, 성공 개수를 적습니다. ", SwingConstants.CENTER));
+            exercisePanel.add(new JLabel(" 단, 마지막 세트는 실패지점까지 반복합니다", SwingConstants.CENTER));
+            exercisePanel.add(new JLabel(" # 세트간 쉬는 시간은 1분입니다", SwingConstants.CENTER));
+        }
     }
 
     private void initNextButtonPanel() {
@@ -173,11 +179,11 @@ public class ExercisePanel extends JPanel {
             this.removeAll();
 
             if (count == 3 || count == 5 || count == 7) {
-                number1 = numberOfSuccesses1.getText();
-                number2 = numberOfSuccesses2.getText();
-                number3 = numberOfSuccesses3.getText();
+                firstSetNumber = numberOfSuccesses1.getText();
+                secondSetNumber = numberOfSuccesses2.getText();
+                thirdSetNumber = numberOfSuccesses3.getText();
 
-                inputRecordAverage.averageProcess(number1, number2, number3, type);
+                inputRecordAverage.averageProcess(firstSetNumber, secondSetNumber, thirdSetNumber, type);
             }
 
             if (count <= 6) {
@@ -230,6 +236,7 @@ public class ExercisePanel extends JPanel {
         JPanel currentRecordPanel = new JPanel();
         currentRecordPanel.setLayout(new GridLayout(4, 1));
         currentRecordPanel.setPreferredSize(new Dimension(110, 90));
+
         currentRecordPanel.add(new JLabel("현재 평균기록"));
         currentRecordPanel.add(new JLabel("푸쉬업: " + inputRecordAverage.pushUpAverage() + "개"));
         currentRecordPanel.add(new JLabel("풀업: " + inputRecordAverage.pullUpAverage() + "개"));
