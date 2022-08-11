@@ -16,6 +16,7 @@ public class ExercisePanel extends JPanel {
     private Exercise exercise;
     private DifficultyControl difficultyControl;
     private InputRecordAverage inputRecordAverage;
+    private ExerciseRecordWriter exerciseRecordWriter;
 
     private JPanel subheadingPanel;
     private JPanel exerciseListPanel;
@@ -30,11 +31,11 @@ public class ExercisePanel extends JPanel {
 
     private int count = 0;
     private int typeCount = 0;
+    private int average;
     private String type;
     private String firstSetNumber;
     private String secondSetNumber;
     private String thirdSetNumber;
-    private int average;
 
     public ExercisePanel(JPanel contentPanel, JFrame frame) throws FileNotFoundException {
         difficultyControl = new DifficultyControl();
@@ -116,8 +117,10 @@ public class ExercisePanel extends JPanel {
 
         if (count % 2 == 1) {
             exercisePanel.add(new JLabel(type + " 워밍업 세작", SwingConstants.CENTER));
-            exercisePanel.add(new JLabel(" - " + type + " 워밍업 1세트: " + difficultyControl.warmUp1(average) + "개"));
-            exercisePanel.add(new JLabel(" - " + type + " 워밍업 2세트: " + difficultyControl.warmUp2(average) + "개"));
+            exercisePanel.add(new JLabel(" - " + type + " 워밍업 1세트: "
+                    + difficultyControl.warmUp1(average) + "개"));
+            exercisePanel.add(new JLabel(" - " + type + " 워밍업 2세트: "
+                    + difficultyControl.warmUp2(average) + "개"));
             exercisePanel.add(new JLabel(" # 본 운동 전 가벼운 강도의 운동으로 몸을 풀어줍니다"));
             exercisePanel.add(new JLabel(" # 세트간 쉬는 시간은 1분입니다"));
 
@@ -136,7 +139,8 @@ public class ExercisePanel extends JPanel {
 
 
             for (int i = 1; i <= 3; i += 1) {
-                exerciseGoalPanel.add(new JLabel(" - " + type + " " + i + "세트: " + difficultyControl.set(average) + "개    성공 횟수 :"));
+                exerciseGoalPanel.add(new JLabel(" - " + type + " " + i
+                        + "세트: " + difficultyControl.set(average) + "개    성공 횟수 :"));
 
                 panel.add(exerciseGoalPanel);
             }
@@ -196,11 +200,10 @@ public class ExercisePanel extends JPanel {
                 initExerciseCompletePanel();
 
                 try {
-                    ExerciseRecordWriter exerciseRecordWriter = new ExerciseRecordWriter(inputRecordAverage);
+                    exerciseRecordWriter = new ExerciseRecordWriter(inputRecordAverage);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-
             }
 
             contentPanel.setVisible(false);

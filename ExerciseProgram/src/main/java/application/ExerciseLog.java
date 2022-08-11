@@ -83,13 +83,14 @@ public class ExerciseLog {
         return button;
     }
 
-    private JButton createExerciseLogButton() {
-        JButton button = new JButton("운동 일지");
-        button.addActionListener(e -> {
-
-        });
-        return button;
-    }
+//    private JButton createExerciseLogButton() {
+//        JButton button = new JButton("운동 일지");
+//        button.addActionListener(e -> {
+//
+//        });
+//        return button;
+//    }
+    //TODO 운동일지 기능 구현
 
     private void createBackButton() {
         backButton = new JButton("돌아가기");
