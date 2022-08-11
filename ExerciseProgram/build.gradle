@@ -16,7 +16,7 @@ dependencies {
 }
 
 application {
-    mainClassName = 'ExerciseLog'
+    mainClassName = 'ExerciseLog.csv'
 }
 
 test {

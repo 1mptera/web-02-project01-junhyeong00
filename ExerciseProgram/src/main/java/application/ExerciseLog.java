@@ -1,11 +1,15 @@
 package application;
 
+import models.ExerciseRecord;
+import panel.ExerciseLogPanel;
 import panel.ExercisePanel;
 import panel.LevelTestPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExerciseLog {
 
@@ -13,6 +17,8 @@ public class ExerciseLog {
     private JPanel contentPanel;
     private JPanel menuPanel;
     private JButton backButton;
+
+    private List<ExerciseRecord> exercisesRecords = new ArrayList<>();
 
     public static void main(String[] args) {
         ExerciseLog application = new ExerciseLog();
@@ -30,7 +36,7 @@ public class ExerciseLog {
     }
 
     public void initFrame() {
-        frame = new JFrame("운동 일지");
+        frame = new JFrame("Exercise Log");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setSize(350, 500);
@@ -44,7 +50,7 @@ public class ExerciseLog {
 
         menuPanel.add(createTestButton());
         menuPanel.add(createExerciseStartButton());
-//        menuPanel.add(createExerciseLogButton());
+        menuPanel.add(createExerciseLogButton());
 
         frame.add(menuPanel);
     }
@@ -54,7 +60,7 @@ public class ExerciseLog {
         button.addActionListener(e -> {
             JPanel exercisePanel = null;
             try {
-                exercisePanel = new ExercisePanel(contentPanel, frame);
+                exercisePanel = new ExercisePanel(contentPanel, frame, exercisesRecords);
             } catch (FileNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
@@ -83,14 +89,25 @@ public class ExerciseLog {
         return button;
     }
 
-//    private JButton createExerciseLogButton() {
-//        JButton button = new JButton("운동 일지");
-//        button.addActionListener(e -> {
-//
-//        });
-//        return button;
-//    }
-    //TODO 운동일지 기능 구현
+    private JButton createExerciseLogButton() {
+        JButton button = new JButton("운동 일지");
+        button.addActionListener(e -> {
+            ExerciseLogPanel exerciseLogPanel = null;
+            try {
+                exerciseLogPanel = new ExerciseLogPanel(exercisesRecords);
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+
+            createBackButton();
+
+            updateContentPanel(exerciseLogPanel);
+
+            updateMenuPanel(backButton);
+
+        });
+        return button;
+    }
 
     private void createBackButton() {
         backButton = new JButton("돌아가기");
@@ -100,7 +117,7 @@ public class ExerciseLog {
 
             menuPanel.add(createTestButton());
             menuPanel.add(createExerciseStartButton());
-//            menuPanel.add(createExerciseLogButton());
+            menuPanel.add(createExerciseLogButton());
 
             contentPanel.setVisible(false);
             contentPanel.setVisible(true);

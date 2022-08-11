@@ -27,9 +27,11 @@ public class LevelTestPanel extends JPanel {
 
     private InputRecordAverage inputRecordAverage;
     private ExerciseRecordWriter exerciseRecordWriter;
+    private boolean test = true;
 
     public LevelTestPanel(JPanel contentPanel, JFrame frame) {
         inputRecordAverage = new InputRecordAverage();
+        exerciseRecordWriter = new ExerciseRecordWriter();
 
         this.contentPanel = contentPanel;
         this.frame = frame;
@@ -134,7 +136,8 @@ public class LevelTestPanel extends JPanel {
                 secondSetNumber = numberOfSuccesses2.getText();
                 thirdSetNumber = numberOfSuccesses3.getText();
 
-                inputRecordAverage.averageProcess(firstSetNumber, secondSetNumber, thirdSetNumber, type);
+                inputRecordAverage.averageProcess(
+                        firstSetNumber, secondSetNumber, thirdSetNumber, type);
             }
 
             this.removeAll();
@@ -147,7 +150,7 @@ public class LevelTestPanel extends JPanel {
                 initExerciseResultPanel();
 
                 try {
-                    exerciseRecordWriter = new ExerciseRecordWriter(inputRecordAverage);
+                    exerciseRecordWriter.saveExerciseInformation(inputRecordAverage);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }

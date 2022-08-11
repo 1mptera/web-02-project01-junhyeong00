@@ -1,5 +1,6 @@
 package panel;
 
+import models.ExerciseRecord;
 import utils.InputRecordAverage;
 import utils.DifficultyControl;
 import models.Exercise;
@@ -10,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 public class ExercisePanel extends JPanel {
     private final ExerciseRecordLoader exerciseRecordLoader;
@@ -36,14 +38,17 @@ public class ExercisePanel extends JPanel {
     private String firstSetNumber;
     private String secondSetNumber;
     private String thirdSetNumber;
+    private List<ExerciseRecord> exerciseRecords;
 
-    public ExercisePanel(JPanel contentPanel, JFrame frame) throws FileNotFoundException {
+    public ExercisePanel(JPanel contentPanel, JFrame frame, List<ExerciseRecord> exerciseRecords) throws FileNotFoundException {
         difficultyControl = new DifficultyControl();
         exerciseRecordLoader = new ExerciseRecordLoader();
+        exerciseRecordWriter = new ExerciseRecordWriter();
         inputRecordAverage = new InputRecordAverage();
 
         exercise = exerciseRecordLoader.loadExerciseRecord();
 
+        this.exerciseRecords = exerciseRecords;
         this.contentPanel = contentPanel;
         this.frame = frame;
 
@@ -87,9 +92,12 @@ public class ExercisePanel extends JPanel {
                 average = exercise.squatAverage();
             }
 
-            panel.add(new JLabel(" - " + type + " 워밍업1: " + difficultyControl.warmUp1(average) + "개"));
-            panel.add(new JLabel(" - " + type + " 워밍업2: " + difficultyControl.warmUp2(average) + "개"));
-            panel.add(new JLabel(" - " + type + " 3세트: 각각 " + difficultyControl.set(average) + "개"));
+            panel.add(new JLabel(" - " + type + " 워밍업1: "
+                    + difficultyControl.warmUp1(average) + "개"));
+            panel.add(new JLabel(" - " + type + " 워밍업2: "
+                    + difficultyControl.warmUp2(average) + "개"));
+            panel.add(new JLabel(" - " + type + " 3세트: 각각 "
+                    + difficultyControl.set(average) + "개"));
 
             exerciseListPanel.add(panel);
         }
@@ -116,7 +124,7 @@ public class ExercisePanel extends JPanel {
         }
 
         if (count % 2 == 1) {
-            exercisePanel.add(new JLabel(type + " 워밍업 세작", SwingConstants.CENTER));
+            exercisePanel.add(new JLabel(type + " 워밍업 세트", SwingConstants.CENTER));
             exercisePanel.add(new JLabel(" - " + type + " 워밍업 1세트: "
                     + difficultyControl.warmUp1(average) + "개"));
             exercisePanel.add(new JLabel(" - " + type + " 워밍업 2세트: "
@@ -166,9 +174,12 @@ public class ExercisePanel extends JPanel {
 
             add(exercisePanel, BorderLayout.NORTH);
 
-            exercisePanel.add(new JLabel(" # 목표 개수만큼 운동을 한 후, 성공 개수를 적습니다. ", SwingConstants.CENTER));
-            exercisePanel.add(new JLabel(" 단, 마지막 세트는 실패지점까지 반복합니다", SwingConstants.CENTER));
-            exercisePanel.add(new JLabel(" # 세트간 쉬는 시간은 1분입니다", SwingConstants.CENTER));
+            exercisePanel.add(new JLabel(" # 목표 개수만큼 운동을 한 후, 성공 개수를 적습니다"
+                    , SwingConstants.CENTER));
+            exercisePanel.add(new JLabel(" 단, 마지막 세트는 실패지점까지 반복합니다"
+                    , SwingConstants.CENTER));
+            exercisePanel.add(new JLabel(" # 세트간 쉬는 시간은 1분입니다"
+                    , SwingConstants.CENTER));
         }
     }
 
@@ -199,11 +210,25 @@ public class ExercisePanel extends JPanel {
             if (count == 7) {
                 initExerciseCompletePanel();
 
+                ExerciseRecord exerciseRecord = new ExerciseRecord(
+                        inputRecordAverage.pushUpAverage(),
+                        inputRecordAverage.pullUpAverage(),
+                        inputRecordAverage.squatAverage());
+
+                exerciseRecords.add(exerciseRecord);
+
                 try {
-                    exerciseRecordWriter = new ExerciseRecordWriter(inputRecordAverage);
+                    exerciseRecordWriter.saveExerciseInformation(inputRecordAverage);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
+
+                try {
+                    exerciseRecordWriter.saveExerciseRecord(exerciseRecords);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
             }
 
             contentPanel.setVisible(false);
