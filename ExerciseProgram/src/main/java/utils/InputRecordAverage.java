@@ -1,13 +1,21 @@
 package utils;
 
-public class InputRecordAverage {
+import models.ExerciseRecord;
 
+import java.util.List;
+
+public class InputRecordAverage {
     private int pushUpAverage;
     private int pullUpAverage;
     private int squatAverage;
 
-    public void averageProcess(String firstSetNumber, String secondSetNumber, String thirdSetNumber, String type) {
-        int sum = Integer.parseInt(firstSetNumber) + Integer.parseInt(secondSetNumber) + Integer.parseInt(thirdSetNumber);
+    public void averageProcess(String firstSetNumber,
+                               String secondSetNumber,
+                               String thirdSetNumber,
+                               String type) {
+        int sum = Integer.parseInt(firstSetNumber)
+                + Integer.parseInt(secondSetNumber)
+                + Integer.parseInt(thirdSetNumber);
 
         switch (type) {
             case "푸쉬업" -> pushUpAverage = sum / 3;
