@@ -219,16 +219,11 @@ public class ExercisePanel extends JPanel {
 
                 try {
                     exerciseRecordWriter.saveExerciseInformation(inputRecordAverage);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
 
-                try {
                     exerciseRecordWriter.saveExerciseRecord(exerciseRecords);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-
             }
 
             contentPanel.setVisible(false);

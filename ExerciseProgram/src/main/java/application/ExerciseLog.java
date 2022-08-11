@@ -1,6 +1,7 @@
 package application;
 
 import models.ExerciseRecord;
+import panel.DescriptionPanel;
 import panel.ExerciseLogPanel;
 import panel.ExercisePanel;
 import panel.LevelTestPanel;
@@ -51,6 +52,7 @@ public class ExerciseLog {
         menuPanel.add(createTestButton());
         menuPanel.add(createExerciseStartButton());
         menuPanel.add(createExerciseLogButton());
+        menuPanel.add(createDescriptionButton());
 
         frame.add(menuPanel);
     }
@@ -70,13 +72,12 @@ public class ExerciseLog {
             updateContentPanel(exercisePanel);
 
             updateMenuPanel(backButton);
-
         });
         return button;
     }
 
     private JButton createTestButton() {
-        JButton button = new JButton("레벨 테스트");
+        JButton button = new JButton("테스트");
         button.addActionListener(e -> {
             LevelTestPanel levelTestPanel = new LevelTestPanel(contentPanel, frame);
 
@@ -104,7 +105,21 @@ public class ExerciseLog {
             updateContentPanel(exerciseLogPanel);
 
             updateMenuPanel(backButton);
+        });
+        return button;
+    }
 
+    private JButton createDescriptionButton() {
+        JButton button = new JButton("도움말");
+        button.setPreferredSize(new Dimension(45,20));
+        button.addActionListener(e -> {
+            DescriptionPanel descriptionPanel = new DescriptionPanel();
+
+            createBackButton();
+
+            updateContentPanel(descriptionPanel);
+
+            updateMenuPanel(backButton);
         });
         return button;
     }
@@ -118,6 +133,7 @@ public class ExerciseLog {
             menuPanel.add(createTestButton());
             menuPanel.add(createExerciseStartButton());
             menuPanel.add(createExerciseLogButton());
+            menuPanel.add(createDescriptionButton());
 
             contentPanel.setVisible(false);
             contentPanel.setVisible(true);
