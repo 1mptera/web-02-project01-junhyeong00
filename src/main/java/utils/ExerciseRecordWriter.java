@@ -1,6 +1,5 @@
 package utils;
 
-import models.Exercise;
 import models.ExerciseRecord;
 
 import java.io.FileWriter;
