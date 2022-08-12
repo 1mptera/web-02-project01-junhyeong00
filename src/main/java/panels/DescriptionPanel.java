@@ -1,4 +1,4 @@
-package panel;
+package panels;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -7,6 +7,7 @@ import java.awt.*;
 
 public class DescriptionPanel extends JPanel {
     public DescriptionPanel() {
+        setOpaque(false);
         setLayout(new GridLayout(5, 1, 2, 30));
         setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
 

@@ -1,4 +1,4 @@
-package panel;
+package panels;
 
 import utils.ExerciseRecordWriter;
 import utils.InputRecordAverage;
@@ -8,12 +8,15 @@ import java.awt.*;
 import java.io.IOException;
 
 public class LevelTestPanel extends JPanel {
-    private JPanel testButtonPanel;
-    private final JPanel contentPanel;
     private final JFrame frame;
+    private final JPanel contentPanel;
+    private JPanel testPanel;
+    private JPanel testButtonPanel;
+    private JPanel exerciseGoalPanel;
     private JPanel testResultPanel;
     private JPanel numberOfSuccessesPanel;
     private JPanel testDescriptionPanel;
+    private JPanel exerciseRepsInputPanel;
     private JTextField numberOfSuccesses1;
     private JTextField numberOfSuccesses2;
     private JTextField numberOfSuccesses3;
@@ -27,7 +30,6 @@ public class LevelTestPanel extends JPanel {
 
     private InputRecordAverage inputRecordAverage;
     private ExerciseRecordWriter exerciseRecordWriter;
-    private boolean test = true;
 
     public LevelTestPanel(JPanel contentPanel, JFrame frame) {
         inputRecordAverage = new InputRecordAverage();
@@ -37,6 +39,7 @@ public class LevelTestPanel extends JPanel {
         this.frame = frame;
 
         setLayout(new BorderLayout());
+        setOpaque(false);
 
         add(testDescriptionPanel());
 
@@ -63,45 +66,15 @@ public class LevelTestPanel extends JPanel {
     }
 
     private JPanel testPanel() {
-        JPanel testPanel = new JPanel();
+        testPanel = new JPanel();
         testPanel.setPreferredSize(new Dimension(350, 390));
         testPanel.setLayout(new GridLayout(5, 1));
 
-        type = "푸쉬업";
+        exerciseTypeProcess();
 
-        if (typeCount == 1) {
-            type = "풀업";
-        }
+        testPanel.add(new JLabel(testTypeTitle(), SwingConstants.CENTER));
 
-        if (typeCount == 2) {
-            type = "스쿼트";
-        }
-
-        testPanel.add(new JLabel("TEST" + " - " + type, SwingConstants.CENTER));
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout());
-
-        JPanel exerciseGoalPanel = new JPanel();
-        exerciseGoalPanel.setPreferredSize(new Dimension(200, 75));
-        exerciseGoalPanel.setLayout(new GridLayout(3, 1));
-
-        for (int i = 1; i <= 3; i += 1) {
-            exerciseGoalPanel.add(new JLabel(" - " + type + " " + i
-                    + "세트:          성공횟수: ", SwingConstants.CENTER));
-
-            panel.add(exerciseGoalPanel);
-        }
-
-        numberOfSuccessesPanel = new JPanel();
-        numberOfSuccessesPanel.setPreferredSize(new Dimension(140, 75));
-        numberOfSuccessesPanel.setLayout(new GridLayout(3, 1));
-
-        NumberOfSuccessesTextField();
-
-        panel.add(numberOfSuccessesPanel);
-
-        testPanel.add(panel);
+        testPanel.add(exerciseRepsInputPanel());
 
         typeCount += 1;
 
@@ -114,7 +87,51 @@ public class LevelTestPanel extends JPanel {
         return testPanel;
     }
 
-    private void NumberOfSuccessesTextField() {
+    private JPanel exerciseRepsInputPanel() {
+        exerciseRepsInputPanel = new JPanel();
+        exerciseRepsInputPanel.setLayout(new FlowLayout());
+
+        exerciseGoalPanel();
+
+        exerciseRepsInputPanel.add(NumberOfSuccessesInputPanel());
+
+        return exerciseRepsInputPanel;
+    }
+
+    private void exerciseGoalPanel() {
+        exerciseGoalPanel = new JPanel();
+        exerciseGoalPanel.setPreferredSize(new Dimension(200, 75));
+        exerciseGoalPanel.setLayout(new GridLayout(3, 1));
+
+        for (int i = 1; i <= 3; i += 1) {
+            exerciseGoalPanel.add(new JLabel(exerciseRepsInputRequest(i), SwingConstants.CENTER));
+
+            exerciseRepsInputPanel.add(exerciseGoalPanel);
+        }
+    }
+
+    private String exerciseRepsInputRequest(int i) {
+        return " - " + type + " " + i
+                + "세트:          성공횟수: ";
+    }
+
+    private String testTypeTitle() {
+        return "TEST" + " - " + type;
+    }
+
+    private void exerciseTypeProcess() {
+        switch (typeCount) {
+            case 1 -> type = "풀업";
+            case 2 -> type = "스쿼트";
+            default -> type = "푸쉬업";
+        }
+    }
+
+    private JPanel NumberOfSuccessesInputPanel() {
+        numberOfSuccessesPanel = new JPanel();
+        numberOfSuccessesPanel.setPreferredSize(new Dimension(140, 75));
+        numberOfSuccessesPanel.setLayout(new GridLayout(3, 1));
+
         numberOfSuccesses1 = new JTextField(10);
         numberOfSuccessesPanel.add(numberOfSuccesses1);
 
@@ -123,6 +140,8 @@ public class LevelTestPanel extends JPanel {
 
         numberOfSuccesses3 = new JTextField(10);
         numberOfSuccessesPanel.add(numberOfSuccesses3);
+
+        return numberOfSuccessesPanel;
     }
 
     private void initTestButtonPanel() {
@@ -131,54 +150,70 @@ public class LevelTestPanel extends JPanel {
 
         JButton button = new JButton(testButtonName);
         button.addActionListener(e -> {
-            if (typeCount > 0) {
-                firstSetNumber = numberOfSuccesses1.getText();
-                secondSetNumber = numberOfSuccesses2.getText();
-                thirdSetNumber = numberOfSuccesses3.getText();
+            testScreenProcess();
+        });
 
-                inputRecordAverage.averageProcess(
-                        firstSetNumber, secondSetNumber, thirdSetNumber, type);
-            }
+        testButtonPanel.add(button);
+        add(testButtonPanel, BorderLayout.SOUTH);
+    }
 
-            this.removeAll();
+    private void testScreenProcess() {
+        this.removeAll();
 
-            testButtonName = "다음 테스트";
-
-            if (typeCount == 3) {
-                testButtonName = "테스트 완료";
-
-                initExerciseResultPanel();
-
-                try {
-                    exerciseRecordWriter.saveExerciseInformation(inputRecordAverage);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-
-                if (typeCount < 3) {
-                    add(testPanel());
-                }
-
-                contentPanel.setVisible(false);
-                contentPanel.setVisible(true);
-
-                frame.setVisible(true);
-            });
-
-            testButtonPanel.add(button);
-            add(testButtonPanel, BorderLayout.SOUTH);
+        if (typeCount > 0) {
+            getExerciseSuccessReps();
         }
 
-        private void initExerciseResultPanel() {
-            testResultPanel = new JPanel();
-            testResultPanel.setLayout(new GridLayout(7, 1));
-            testResultPanel.setPreferredSize(new Dimension(350, 390));
+        testButtonName = "다음 테스트";
 
-            testResultLabel();
+        if (typeCount == 3) {
+            testButtonName = "테스트 완료";
 
-            add(testResultPanel);
+            initExerciseResultPanel();
+
+            saveRecords();
         }
+
+        if (typeCount < 3) {
+            add(testPanel());
+        }
+
+        updateContentPanel();
+    }
+
+    private void getExerciseSuccessReps() {
+        firstSetNumber = numberOfSuccesses1.getText();
+        secondSetNumber = numberOfSuccesses2.getText();
+        thirdSetNumber = numberOfSuccesses3.getText();
+
+        inputRecordAverage.averageProcess(
+                firstSetNumber, secondSetNumber, thirdSetNumber, type);
+    }
+
+    private void updateContentPanel() {
+        contentPanel.setVisible(false);
+        contentPanel.setVisible(true);
+
+        frame.setVisible(true);
+    }
+
+    private void saveRecords() {
+        try {
+            exerciseRecordWriter.saveExerciseInformation(inputRecordAverage);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    private void initExerciseResultPanel() {
+        testResultPanel = new JPanel();
+        testResultPanel.setLayout(new GridLayout(7, 1));
+        testResultPanel.setPreferredSize(new Dimension(350, 390));
+
+        testResultLabel();
+
+        add(testResultPanel);
+    }
 
     private void testResultLabel() {
         testResultPanel.add(new JLabel("테스트 평균기록", SwingConstants.CENTER));

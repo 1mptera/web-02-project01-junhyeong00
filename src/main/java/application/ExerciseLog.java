@@ -1,15 +1,12 @@
 package application;
 
 import models.ExerciseRecord;
-import panel.DescriptionPanel;
-import panel.ExerciseLogPanel;
-import panel.ExercisePanel;
-import panel.LevelTestPanel;
+import panels.*;
+import utils.ExerciseRecordLoader;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ExerciseLog {
@@ -19,11 +16,18 @@ public class ExerciseLog {
     private JPanel menuPanel;
     private JButton backButton;
 
-    private List<ExerciseRecord> exercisesRecords = new ArrayList<>();
+    private List<ExerciseRecord> exerciseRecords;
+    private ImagePanel imagePanel;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         ExerciseLog application = new ExerciseLog();
         application.run();
+    }
+
+    public ExerciseLog() throws FileNotFoundException {
+        ExerciseRecordLoader exerciseRecordLoader = new ExerciseRecordLoader();
+
+        exerciseRecords = exerciseRecordLoader.loadExerciseLog();
     }
 
     public void run() {
@@ -42,6 +46,11 @@ public class ExerciseLog {
         frame.setResizable(false);
         frame.setSize(350, 500);
         frame.setLocation(400, 100);
+
+        imagePanel = new ImagePanel("data/background.png");
+        imagePanel.setLayout(new BorderLayout());
+        frame.add(imagePanel);
+        frame.setVisible(true);
     }
 
     public void initMenuPanel() {
@@ -54,7 +63,7 @@ public class ExerciseLog {
         menuPanel.add(createExerciseLogButton());
         menuPanel.add(createDescriptionButton());
 
-        frame.add(menuPanel);
+        imagePanel.add(menuPanel);
     }
 
     private JButton createExerciseStartButton() {
@@ -62,7 +71,7 @@ public class ExerciseLog {
         button.addActionListener(e -> {
             JPanel exercisePanel = null;
             try {
-                exercisePanel = new ExercisePanel(contentPanel, frame, exercisesRecords);
+                exercisePanel = new ExercisePanel(contentPanel, frame, exerciseRecords);
             } catch (FileNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
@@ -95,7 +104,7 @@ public class ExerciseLog {
         button.addActionListener(e -> {
             ExerciseLogPanel exerciseLogPanel = null;
             try {
-                exerciseLogPanel = new ExerciseLogPanel(exercisesRecords);
+                exerciseLogPanel = new ExerciseLogPanel(exerciseRecords);
             } catch (FileNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
@@ -111,7 +120,7 @@ public class ExerciseLog {
 
     private JButton createDescriptionButton() {
         JButton button = new JButton("도움말");
-        button.setPreferredSize(new Dimension(45,20));
+        button.setPreferredSize(new Dimension(45, 20));
         button.addActionListener(e -> {
             DescriptionPanel descriptionPanel = new DescriptionPanel();
 
@@ -147,19 +156,16 @@ public class ExerciseLog {
 
     public void initContentPanel() {
         contentPanel = new JPanel();
+        contentPanel.setOpaque(false);
         contentPanel.setPreferredSize(new Dimension(350, 430));
 
-        frame.add(contentPanel, BorderLayout.NORTH);
+        imagePanel.add(contentPanel, BorderLayout.NORTH);
     }
 
     public void updateContentPanel(JPanel panel) {
         contentPanel.removeAll();
         contentPanel.add(panel);
 
-        showContentPanel();
-    }
-
-    public void showContentPanel() {
         contentPanel.setVisible(false);
         contentPanel.setVisible(true);
 
