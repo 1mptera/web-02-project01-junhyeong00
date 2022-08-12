@@ -7,16 +7,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class InputRecordAverageTest {
     @Test
-    void AverageProcess() {
+    void toCsvRow() {
         InputRecordAverage inputRecordAverage = new InputRecordAverage();
 
-//        inputRecordAverage.averageProcess("1", "2", "5", "푸쉬업");
-//
-//        inputRecordAverage.averageProcess("1", "2", "4", "풀업");
-//
-//        inputRecordAverage.averageProcess("1", "2", "6", "스쿼트");
-//
-//        assertEquals(new String[]{"2","2","3"}, inputRecordAverage.values());
-    }
+        inputRecordAverage.averageProcess("1", "2", "5", "푸쉬업");
 
+        inputRecordAverage.averageProcess("1", "2", "4", "풀업");
+
+        inputRecordAverage.averageProcess("1", "2", "6", "스쿼트");
+
+        assertEquals("2,2,3", inputRecordAverage.toCsvRow());
+    }
 }
