@@ -15,6 +15,10 @@ public class ExerciseRecord {
         this.squatAverage = squatAverage;
     }
 
+    public int pushUpAverage() {
+        return pushUpAverage;
+    }
+
     public String[] values() {
         return new String[]{Integer.toString(pushUpAverage),
                 Integer.toString(pullUpAverage),
