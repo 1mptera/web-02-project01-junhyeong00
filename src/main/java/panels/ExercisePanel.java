@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ExercisePanel extends JPanel {
     private final ExerciseRecordLoader exerciseRecordLoader;
-    private final ExerciseRecord exerciseRecord;
+    private ExerciseRecord exerciseRecord;
     private Exercise exercise;
     private DifficultyControl difficultyControl;
     private InputRecordAverage inputRecordAverage;
@@ -56,10 +56,6 @@ public class ExercisePanel extends JPanel {
         exerciseRecordLoader = new ExerciseRecordLoader();
         exerciseRecordWriter = new ExerciseRecordWriter();
         inputRecordAverage = new InputRecordAverage();
-        exerciseRecord = new ExerciseRecord(
-                inputRecordAverage.pushUpAverage(),
-                inputRecordAverage.pullUpAverage(),
-                inputRecordAverage.squatAverage());
 
         exercise = exerciseRecordLoader.loadExerciseRecord();
 
@@ -259,6 +255,11 @@ public class ExercisePanel extends JPanel {
 
         if (count == 7) {
             initExerciseCompletePanel();
+
+            exerciseRecord = new ExerciseRecord(
+                    inputRecordAverage.pushUpAverage(),
+                    inputRecordAverage.pullUpAverage(),
+                    inputRecordAverage.squatAverage());
 
             exerciseRecords.add(exerciseRecord);
 

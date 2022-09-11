@@ -7,7 +7,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class ExerciseRecordTest {
     @Test
     void creation() {
-        ExerciseRecord exerciseRecord = new ExerciseRecord(4, 4, 4);
+        ExerciseRecord exerciseRecord = new ExerciseRecord(4, 5, 6);
+
+        assertEquals(4, exerciseRecord.pushUpAverage());
     }
 
     @Test

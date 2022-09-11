@@ -41,7 +41,7 @@ public class DescriptionPanel extends JPanel {
         exerciseDescriptionPanel.add(new JLabel("푸쉬업(가슴), 풀업(등), 스쿼트(하체)로 구성되어 있는 전신 프로그램", SwingConstants.CENTER));
         exerciseDescriptionPanel.add(new JLabel("3가지 운동이 워밍업 2세트, 본 운동 3세트로 구성", SwingConstants.CENTER));
         exerciseDescriptionPanel.add(new JLabel("워밍업 세트: 본 운동전 가벼운 강도로 몸을 풀어주는 세트", SwingConstants.CENTER));
-        exerciseDescriptionPanel.add(new JLabel("본 세트: 점진적으로 강도를 올리며, 본격전으로 운동을 하는 세트", SwingConstants.CENTER));
+        exerciseDescriptionPanel.add(new JLabel("본 세트: 점진적으로 강도를 올리며, 본격적으로 운동을 하는 세트", SwingConstants.CENTER));
 
         return exerciseDescriptionPanel;
     }
